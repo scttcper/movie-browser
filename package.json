@@ -9,22 +9,27 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.10",
-    "@emotion/styled": "^10.0.12",
+    "@emotion/core": "10.0.14",
+    "@emotion/styled": "10.0.14",
     "bootstrap": "4.3.1",
+    "downshift": "^3.2.10",
     "react": "16.8.6",
     "react-bootstrap": "1.0.0-beta.9",
-    "react-dom": "16.8.6"
+    "react-burger-menu": "^2.6.10",
+    "react-dom": "16.8.6",
+    "react-router-dom": "5.0.1"
   },
   "devDependencies": {
     "@types/jest": "24.0.15",
-    "@types/node": "12.0.8",
-    "@types/react": "16.8.20",
+    "@types/node": "12.6.2",
+    "@types/react": "16.8.23",
+    "@types/react-burger-menu": "^2.2.5",
     "@types/react-dom": "16.8.4",
-    "babel-plugin-emotion": "^10.0.13",
+    "@types/react-router-dom": "4.3.4",
+    "babel-plugin-emotion": "10.0.14",
     "node-sass": "4.12.0",
     "react-scripts": "3.0.1",
-    "typescript": "3.5.2"
+    "typescript": "3.5.3"
   },
   "babel": {
     "plugins": [

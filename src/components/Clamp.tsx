@@ -30,7 +30,6 @@ export default class Clamp extends React.Component<ClampProps, ClampState> {
       return;
     }
     const height = this.divElement.clientHeight;
-    console.log({height})
     if (height >= 130) {
       this.setState(state => ({ collapsed: true }));
     }
@@ -42,14 +41,23 @@ export default class Clamp extends React.Component<ClampProps, ClampState> {
     }
     return (
       <ContainerDiv>
-        <div ref={(divElement: HTMLDivElement) => this.divElement = divElement}
-          css={css`${fade}`}
+        <div
+          ref={(divElement: HTMLDivElement) => (this.divElement = divElement)}
+          css={css`
+            ${fade}
+          `}
         >
           <p>{this.props.children}</p>
         </div>
-        {this.state.collapsed && <MoreButton aria-hidden="true" onClick={this.expand} className="btn btn-sm btn-link p-0">
-          more
-        </MoreButton>}
+        {this.state.collapsed && (
+          <MoreButton
+            aria-hidden="true"
+            onClick={this.expand}
+            className="btn btn-sm btn-link p-0"
+          >
+            more
+          </MoreButton>
+        )}
       </ContainerDiv>
     );
   }
@@ -58,10 +66,6 @@ export default class Clamp extends React.Component<ClampProps, ClampState> {
 const ContainerDiv = styled.div`
   position: relative;
   z-index: 1;
-`;
-
-const ClampDiv = styled.div`
-  word-break: break-word;
 `;
 
 const collapsed = css`
@@ -86,4 +90,5 @@ const MoreButton = styled.button`
   /* float: initial; */
   right: 0;
   z-index: 1;
+  line-height: 1.2rem;
 `;

@@ -2,8 +2,6 @@
 @import '~bootstrap/scss/variables';
 
 $font-size-base: 14px;
-
-
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
@@ -111,6 +109,8 @@ $enable-gradients: false;
 $navbar-dark-color: $white;
 $navbar-padding-y:                  $spacer / 4;
 
+$border-radius-lg: .4rem;
+
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/root';
 @import '~bootstrap/scss/reboot';
@@ -124,7 +124,7 @@ $navbar-padding-y:                  $spacer / 4;
 @import '~bootstrap/scss/transitions';
 // @import "~bootstrap/scss/dropdown";
 // @import "~bootstrap/scss/button-group";
-// @import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/input-group";
 // @import "~bootstrap/scss/custom-forms";
 // @import "~bootstrap/scss/nav";
 @import '~bootstrap/scss/navbar';
@@ -133,10 +133,10 @@ $navbar-padding-y:                  $spacer / 4;
 // @import "~bootstrap/scss/pagination";
 // @import "~bootstrap/scss/badge";
 // @import "~bootstrap/scss/jumbotron";
-@import '~bootstrap/scss/alert';
+// @import '~bootstrap/scss/alert';
 // @import "~bootstrap/scss/progress";
 // @import "~bootstrap/scss/media";
-@import '~bootstrap/scss/list-group';
+// @import '~bootstrap/scss/list-group';
 // @import "~bootstrap/scss/close";
 // @import "~bootstrap/scss/modal";
 // @import "~bootstrap/scss/tooltip";
@@ -144,3 +144,9 @@ $navbar-padding-y:                  $spacer / 4;
 // @import "~bootstrap/scss/carousel";
 @import '~bootstrap/scss/utilities';
 @import '~bootstrap/scss/print';
+
+@include media-breakpoint-down(sm) {
+  h1 {
+    font-size: $h1-font-size * 0.65;
+  }
+}
