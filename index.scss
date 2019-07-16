@@ -145,6 +145,9 @@ $border-radius-lg: .4rem;
 @import '~bootstrap/scss/utilities';
 @import '~bootstrap/scss/print';
 
+h1 {
+  font-size: $h1-font-size * 0.9;
+}
 @include media-breakpoint-down(sm) {
   h1 {
     font-size: $h1-font-size * 0.65;
