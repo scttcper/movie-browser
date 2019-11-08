@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NextComponentType, NextPageContext } from 'next';
 import Navbar from 'react-bootstrap/Navbar';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 
 import AppLayout from '../../../components/AppLayout';
 import Clamp from '../../../components/Clamp';
@@ -69,10 +69,14 @@ const Movie: NextComponentType<NextPageContext, { movie: any }, { movie: any }> 
 Movie.getInitialProps = async function(context) {
   const { id } = context.query;
 
-  const res = await axios.get(`http://localhost:3000/api/movie/${id}`);
+  const res = await fetch(`http://localhost:3000/api/movie/${id}`, {
+    headers: {
+      authorization: context.req.headers.authorization,
+    },
+  });
   // const errorCode = res.statusCode > 200 ? res.statusCode : false;
-  // const json = await res.json();
-  return { movie: res.data };
+  const json = await res.json();
+  return { movie: json };
 };
 
 export default Movie;

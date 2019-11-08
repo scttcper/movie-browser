@@ -4,11 +4,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import { css, jsx } from '@emotion/core';
 import Link from 'next/link';
 import { NextComponentType, NextPageContext } from 'next';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 
 import AppLayout from '../../components/AppLayout';
-
-const movies: any = [];
 
 const MovieIndex: NextComponentType<
   NextPageContext,
@@ -51,10 +49,15 @@ const MovieIndex: NextComponentType<
 };
 
 MovieIndex.getInitialProps = async function({ req }) {
-  const res = await axios.get(`http://localhost:3000/api/movie`);
+  const res = await fetch(`http://localhost:3000/api/movie`, {
+    headers: {
+      authorization: req.headers.authorization,
+    },
+  });
   // const errorCode = res.statusCode > 200 ? res.statusCode : false;
-  // const json = await res.json();
-  return { movies: res.data };
+  const json = await res.json();
+  console.log(json);
+  return { movies: json };
 };
 
 export default MovieIndex;

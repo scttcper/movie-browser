@@ -9,7 +9,7 @@ import AppLayout from '../../components/AppLayout';
 const MovieIndex: React.FC = props => {
   return (
     <AppLayout>
-      <Navbar className="border-bottom" expand="md" bg="white">
+      {/* <Navbar className="border-bottom" expand="md" bg="white">
         <div className="container">
           <Link href="/movie">
             <a>
@@ -17,7 +17,7 @@ const MovieIndex: React.FC = props => {
             </a>
           </Link>
         </div>
-      </Navbar>
+      </Navbar> */}
       <main className="container mt-4">
         <div className="row">
           <div className="col-12">
