@@ -1,22 +1,22 @@
 import React from 'react';
-import { reveal as Menu } from 'react-burger-menu';
-import SiteNav from './SiteNav';
 import '../index.scss';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
-const AppLayout: React.FC = (props) => {
+export const AppLayout: React.FC = props => {
+  // eslint-disable-next-line react/prop-types
   return (
-    <React.Fragment>
-      <Menu pageWrapId={'page-wrap'}>
-        <a id="home" className="menu-item" href="/">
-          Home
-        </a>
-      </Menu>
-      <div id="page-wrap">
-        <SiteNav />
-        {props.children}
-      </div>
-    </React.Fragment>
+    <>
+      <Navbar expand bg="light">
+        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      {props.children}
+    </>
   );
 };
-
-export default AppLayout;

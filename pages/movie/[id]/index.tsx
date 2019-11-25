@@ -1,82 +1,68 @@
-import React, { useEffect } from 'react';
-import { NextComponentType, NextPageContext } from 'next';
-import Navbar from 'react-bootstrap/Navbar';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import fetch from 'isomorphic-unfetch';
-
-import AppLayout from '../../../components/AppLayout';
-import Clamp from '../../../components/Clamp';
-import SmallBadge from '../../../components/SmallBadge';
+import { NextComponentType, NextPageContext } from 'next';
 import Link from 'next/link';
 
-const Movie: NextComponentType<NextPageContext, { movie: any }, { movie: any }> = props => {
+import { AppLayout } from '../../../components/AppLayout';
+import { SiteBadge, Sites } from '../../../components/SiteBadge';
+import { ImdbBadge } from '../../../components/ImdbBadge';
+import { RtBadge } from '../../../components/RtBadge';
+import { TmdbBadge } from '../../../components/TmdbBadge';
+
+const Movies: NextComponentType<NextPageContext, { movie: any }, { movie: any }> = props => {
+  console.log({ props });
+  const movieLinks = props.movie.links.filter(x => x.site !== Sites.rottentomatoes);
+  const rt = props.movie.links.find(x => x.site === Sites.rottentomatoes);
+
   return (
     <AppLayout>
-      <Navbar className="border-bottom" expand="md" bg="white">
-        <div className="container">
-          <Link href="/movie">
-            <a>
-              <Navbar.Brand>Movies</Navbar.Brand>
-            </a>
-          </Link>
+      <div className="container">
+        <div className="row my-5">
+          <div className="col-12">
+            <h2>{props.movie.original_title}</h2>
+          </div>
         </div>
-      </Navbar>
-      <main className="container mt-4">
-        <section className="mb-4">
-          <div className="row mb-3">
-            <div className="col-5 col-md-4 col-lg-3">
-              <img alt="Movie Poster" className="rounded-lg" width="100%" src={props.movie.cover} />
-            </div>
+        <div className="row my-5">
+          <div className="col-12">
+            <h5>Links</h5>
+          </div>
+          <div className="col-md-4 my-1">
+            <ImdbBadge />
+          </div>
+          <div className="col-md-4 my-1">
+            <RtBadge />
+          </div>
+          <div className="col-md-4 my-1">
+            <TmdbBadge />
+          </div>
+        </div>
 
-            <div className="col-7">
-              <header className="" role="banner">
-                <h1 className="font-weight-bolder">{props.movie.title}</h1>
+        <div className="row">
+          <div className="col-12">
+            <h5>Watch Now</h5>
+          </div>
 
-                <ul className="list-inline text-muted small">
-                  <li className="list-inline-item">1 Hour 21 Minutes</li>
-                  <li className="list-inline-item inline-list__item--bulleted movie-header__list__item--release-date">
-                    <time dateTime="1995-11-22T08:00:00.000Z" aria-label="1995">
-                      1995
-                    </time>
-                  </li>
-                  <li className="list-inline-item">
-                    <SmallBadge>{props.movie.quality}</SmallBadge>
-                  </li>
-                </ul>
-
-                <div className="d-none d-md-flex">
-                  {/* large screen */}
-                  <section>
-                    <Clamp>{props.movie.description}</Clamp>
-                  </section>
+          <div className="col-12">
+            <div className="row">
+              {movieLinks.map(link => (
+                <div key={link.id} className="col-lg-4 col-md-6">
+                  <SiteBadge link={link} />
                 </div>
-              </header>
+              ))}
             </div>
           </div>
-          {/* small screen */}
-          <div className="row d-md-none">
-            <div className="col-12">
-              <section>
-                <Clamp>{props.movie.description}</Clamp>
-              </section>
-            </div>
-          </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </AppLayout>
   );
 };
 
-Movie.getInitialProps = async function(context) {
+Movies.getInitialProps = async context => {
   const { id } = context.query;
-
-  const res = await fetch(`http://localhost:3000/api/movie/${id}`, {
-    headers: {
-      authorization: context.req.headers.authorization,
-    },
-  });
-  // const errorCode = res.statusCode > 200 ? res.statusCode : false;
+  const res = await fetch(`http://localhost:3000/api/movie/${id}`);
   const json = await res.json();
   return { movie: json };
 };
 
-export default Movie;
+export default Movies;

@@ -11,9 +11,6 @@ export function registerPages(server: HapiServer, app: Server) {
     method: 'GET',
     path: '/movie',
     handler: pathWrapper(app, '/movie'),
-    options: {
-      auth: 'default',
-    },
   });
 
   server.route({
@@ -28,26 +25,17 @@ export function registerNextjs(server: HapiServer, app: Server) {
     method: 'GET',
     path: '/_next/{p*}' /* next specific routes */,
     handler: nextHandlerWrapper(app),
-    options: {
-      auth: 'default',
-    },
   });
 
   server.route({
     method: 'GET',
     path: '/static/{p*}' /* use next to handle static files */,
     handler: nextHandlerWrapper(app),
-    options: {
-      auth: 'default',
-    },
   });
 
   server.route({
     method: '*',
     path: '/{p*}' /* catch all route */,
     handler: defaultHandlerWrapper(app),
-    options: {
-      auth: 'default',
-    },
   });
 }

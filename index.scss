@@ -1,7 +1,7 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
-$font-size-base: 14px;
+// $font-size-base: 14px;
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
@@ -107,9 +107,7 @@ $enable-shadows: false;
 $enable-gradients: false;
 
 $navbar-dark-color: $white;
-$navbar-padding-y:                  $spacer / 4;
-
-$border-radius-lg: .4rem;
+$navbar-padding-y: $spacer / 4;
 
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/root';
@@ -144,12 +142,3 @@ $border-radius-lg: .4rem;
 // @import "~bootstrap/scss/carousel";
 @import '~bootstrap/scss/utilities';
 @import '~bootstrap/scss/print';
-
-h1 {
-  font-size: $h1-font-size * 0.9;
-}
-@include media-breakpoint-down(sm) {
-  h1 {
-    font-size: $h1-font-size * 0.65;
-  }
-}

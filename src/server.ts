@@ -1,15 +1,13 @@
-import Koa, { Context } from 'koa';
 import next from 'next';
-import Router from '@koa/router';
 import { Server } from '@hapi/hapi';
 import Joi from '@hapi/joi';
 import Basic from '@hapi/basic';
 import Good from '@hapi/good';
-
-import { pathWrapper, defaultHandlerWrapper, nextHandlerWrapper } from './next-wrapper';
-import { movies } from './movies';
-import { registerPages, registerNextjs } from './pageRoutes';
 import Boom from '@hapi/boom';
+
+import { registerPages, registerNextjs } from './pageRoutes';
+import { db } from './db';
+import knex from 'knex';
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 const port = parseInt(process.env.PORT as string, 10) || 3000;
@@ -31,11 +29,6 @@ app.prepare().then(async () => {
     debug: { request: ['implementation'] },
     port,
   });
-
-  // basic auth
-  await server.register(Basic);
-  server.auth.strategy('default', 'basic', { validate: validateUser });
-  server.auth.default('default');
 
   // logging
   await server.register({
@@ -73,26 +66,46 @@ app.prepare().then(async () => {
   server.route({
     method: 'GET',
     path: '/api/movie',
-    handler: (request) => {
-      return movies;
-    },
-    options: {
-      auth: 'default',
+    handler: async request => {
+      const results = await db
+        .select()
+        .from('tmdb')
+        .limit(10);
+      return results;
     },
   });
 
   server.route({
     method: 'GET',
     path: '/api/movie/{id}',
-    handler: request => {
-      const movieId = (request.params.id as unknown) as number;
-      const movie = movies.find(n => n.id === movieId);
-      return movie;
+    handler: async request => {
+      const tmdbId = request.params.id;
+      try {
+        const tmdb = await db
+          .select()
+          .from('tmdb')
+          .where('id', tmdbId)
+          .first();
+        if (!tmdb) {
+          Boom.notFound();
+        }
+
+        const links = await db
+          .select(db.raw('DISTINCT ON ("site") "id", "site", "version", "content_id", "url"'))
+          .from('link')
+          .where('tmdb_id', tmdbId)
+          .orderBy([{ column: 'site' }, { column: 'version', order: 'desc' }]);
+        tmdb.links = links;
+        return tmdb;
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
     },
     options: {
       validate: {
         params: Joi.object({
-          id: Joi.number().positive(),
+          id: Joi.number(),
         }),
       },
     },

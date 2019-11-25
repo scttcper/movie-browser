@@ -1,22 +1,33 @@
-import AppLayout from '../components/AppLayout';
-
-import React from 'react';
-import Navbar from 'react-bootstrap/Navbar';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import fetch from 'isomorphic-unfetch';
+import { NextComponentType, NextPageContext } from 'next';
 import Link from 'next/link';
 
-const Movies: React.FC = () => {
+import { AppLayout } from '../components/AppLayout';
+
+const Movies: NextComponentType<NextPageContext, { movies: any[] }, { movies: any[] }> = props => {
   return (
     <AppLayout>
-      <Navbar className="border-bottom" expand="md" bg="white">
-        <div className="container">
-          <Navbar.Brand>Movies</Navbar.Brand>
-        </div>
-      </Navbar>
-      Hello
+      Recently Updated
+      <ul>
+        {props.movies.map(x => (
+          <li key={x.id}>
+            <Link href={`/movie/${String(x.id)}`}>
+              <a>{x.title}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </AppLayout>
   );
+};
+
+Movies.getInitialProps = async () => {
+  const res = await fetch('http://localhost:3000/api/movie');
+  const json = await res.json();
+  console.log('swag', json);
+  return { movies: json };
 };
 
 export default Movies;
